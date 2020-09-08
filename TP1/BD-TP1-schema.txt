@@ -1,0 +1,43 @@
+
+CREATE DOMAIN sexeType AS CHAR
+	CHECK (VALUE IN ('M', 'F'));
+	
+-- Table : DEPARTEMENT
+CREATE TABLE IF NOT EXISTS DEPARTEMENT (
+	nom					VARCHAR(20)		NOT NULL,
+	idDepartement  		INTEGER			NOT NULL,
+	PRIMARY KEY (idDepartement)
+);
+
+-- Table : TRAJET
+CREATE TABLE IF NOT EXISTS TRAJET (
+	idRoute				INTEGER			NOT NULL,
+	idCamion			VARCHAR(17)		NOT NULL,
+	villeDepart			VARCHAR(15)		NOT NULL,
+	villeArrive			VARCHAR(15)		NOT NULL,
+	distance			INTEGER			NOT NULL,
+	datePrevu			DATE			NOT NULL,
+	PRIMARY KEY (idRoute),
+	FOREIGN KEY (idCamion) REFERENCES CAMION(vin)
+);
+
+-- Table : CAMION
+CREATE TABLE IF NOT EXISTS CAMION (
+	vin					VARCHAR(17)		NOT NULL,
+	idChauffeur			VARCHAR(5)		NOT NULL,
+	marque 				VARCHAR(30)		NOT NULL,
+	anneeDeProduction	INTEGER			NOT NULL,
+	PRIMARY KEY (vin),
+	FOREIGN KEY (idChauffeur) REFERENCES CHAUFFEUR(idChauffeur)
+);
+
+-- Table : CHAUFFEUR
+CREATE TABLE IF NOT EXISTS CHAUFFEUR (
+	idChauffeur			VARCHAR(20)		NOT NULL,
+	nomComplet			VARCHAR(30) 	NOT NULL,
+	sexe 				sexeType		NOT NULL,
+	dateDeNaissance		DATE			NOT NULL,
+	idEmployeur			INTEGER 		NOT NULL,
+	PRIMARY KEY (idChauffeur),
+	FOREIGN KEY (idEmployeur) REFERENCES DEPARTEMENT(idDepartement)
+);
